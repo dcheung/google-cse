@@ -53,14 +53,19 @@ module GoogleCSE
     end
     
     def parse_response!
-      @results = @response['items'].map { |i| Result.new(i) }
-      @next_page_params = @response['queries']['nextPage']
-      @prev_page_params = @response['queries']['previousPage']
-      @info = @response['searchInformation']
-      @total = @info['totalResults'].to_i
-      @time = @info['searchTime'].to_f
-      @per_page = @response['queries']['request'].first['count'].to_i
-      @current_index = @response['queries']['request'].first['startIndex'].to_i
+      total = @response['searchInformation']['totalResults']
+
+      if total.to_i > 0 
+        @results = @response['items'].map { |i| Result.new(i) }
+        @next_page_params = @response['queries']['nextPage']
+        @prev_page_params = @response['queries']['previousPage']
+        @info = @response['searchInformation']
+        @total = @info['totalResults'].to_i
+        @time = @info['searchTime'].to_f
+        @per_page = @response['queries']['request'].first['count'].to_i
+        @current_index = @response['queries']['request'].first['startIndex'].to_i
+      end
+      
       nil
     end
   end
