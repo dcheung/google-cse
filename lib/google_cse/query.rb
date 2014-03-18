@@ -55,6 +55,7 @@ module GoogleCSE
     def parse_response!
       total = @response['searchInformation']['totalResults']
       @corrected_query = @response['spelling']['totalResults']
+      logger.info @corrected_query
 
       if total.to_i > 0 
         @results = @response['items'].map { |i| Result.new(i) }
