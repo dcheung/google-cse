@@ -54,6 +54,7 @@ module GoogleCSE
     
     def parse_response!
       total = @response['searchInformation']['totalResults']
+      @corrected_query = @response['spelling']['totalResults']
 
       if total.to_i > 0 
         @results = @response['items'].map { |i| Result.new(i) }
@@ -64,8 +65,6 @@ module GoogleCSE
         @time = @info['searchTime'].to_f
         @per_page = @response['queries']['request'].first['count'].to_i
         @current_index = @response['queries']['request'].first['startIndex'].to_i
-      else
-        @corrected_query = @response['spelling']['correctedQuery']
       end
       
       nil
