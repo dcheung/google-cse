@@ -5,7 +5,7 @@ require 'open-uri'
 module GoogleCSE
   class Query
     @@endpoint = 'https://www.googleapis.com/customsearch/v1'
-    attr_accessor :params, :results, :info, :response, :current_index, :total, :per_page, :time
+    attr_accessor :params, :results, :info, :response, :current_index, :total, :per_page, :time, :corrected_query
   
     def initialize opts = {}
       opts.map {|k,v| send(:"#{k}=",v)}
@@ -64,6 +64,8 @@ module GoogleCSE
         @time = @info['searchTime'].to_f
         @per_page = @response['queries']['request'].first['count'].to_i
         @current_index = @response['queries']['request'].first['startIndex'].to_i
+      else
+        @corrected_query = @response['spelling']['correctedQuery']
       end
       
       nil
