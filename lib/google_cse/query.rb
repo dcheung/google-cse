@@ -54,7 +54,7 @@ module GoogleCSE
     
     def parse_response!
       total = @response['searchInformation']['totalResults']
-      if @response.has_key?('spelling')
+      if !@response.has_key?('spelling')
         @corrected_query = @response['spelling']['correctedQuery']
       end
 
